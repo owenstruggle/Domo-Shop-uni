@@ -16,10 +16,8 @@
           <!-- 动态渲染三级分类的列表数据 -->
           <view class="cate-lv3-list">
             <!-- 三级分类 Item 项 -->
-            <view class="cate-lv3-item" v-for="(item3, i3) in item2.children" :key="i3">
-              <!-- 图片 -->
+            <view class="cate-lv3-item" v-for="(item3, i3) in item2.children" :key="i3" @click="gotoGoodsList(item3)">
               <image :src="item3.cat_icon"></image>
-              <!-- 文本 -->
               <text>{{item3.cat_name}}</text>
             </view>
           </view>
@@ -81,6 +79,12 @@
         this.cateList = res.message
         // 为二级分类赋值
         this.cateLevel2 = res.message[0].children
+      },
+      // 点击三级分类项跳转到商品列表页面
+      gotoGoodsList(item3) {
+        uni.navigateTo({
+          url: '/subpkg/goods_list/goods_list?cid=' + item3.cat_id
+        })
       }
     }
   }
