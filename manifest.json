@@ -53,9 +53,10 @@
         "appid" : "wxf3f05c003bf16077",
         "setting" : {
             "urlCheck" : false,
-            "checkSiteMap": false
+            "checkSiteMap" : false
         },
         "usingComponents" : true
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "locale" : "auto"
 }
