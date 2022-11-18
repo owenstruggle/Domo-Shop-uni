@@ -10,7 +10,7 @@
         </block>
       </scroll-view>
       <!-- 右侧的滚动视图区域 -->
-      <scroll-view class="right-scroll-view" scroll-y :style="{height: wh + 'px'}">
+      <scroll-view class="right-scroll-view" scroll-y :style="{height: wh + 'px'}" :scroll-top="scrollTop">
         <view class="cate-lv2" v-for="(item2, i2) in cateLevel2" :key="i2">
           <view class="cate-lv2-title">/ {{item2.cat_name}} /</view>
           <!-- 动态渲染三级分类的列表数据 -->
@@ -40,7 +40,9 @@
         // 当前选中项的索引，默认让第一项被选中
         active: 0,
         // 二级分类列表
-        cateLevel2: []
+        cateLevel2: [],
+        // 滚动条距离顶部的距离
+        scrollTop: 0
       };
     },
     onLoad() {
@@ -65,8 +67,11 @@
       // 选中项改变的事件处理函数
       activeChanged(i) {
         this.active = i
-        // 为二级分类列表重新赋值
         this.cateLevel2 = this.cateList[i].children
+        // 让 scrollTop 的值在 0 与 1 之间切换
+        // this.scrollTop = this.scrollTop === 0 ? 1 : 0
+        // 可以简化为如下的代码：
+        this.scrollTop = this.scrollTop ? 0 : 1
       },
       async getCateList() {
         const {
