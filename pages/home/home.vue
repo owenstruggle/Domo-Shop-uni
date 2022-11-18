@@ -26,11 +26,13 @@
         <view class="floor-img-box">
           <!-- 左侧大图片的盒子 -->
           <navigator class="left-img-box" :url="item.product_list[0].url">
-            <image :src="item.product_list[0].image_src" :style="{width: item.product_list[0].image_width + 'rpx'}" mode="widthFix"></image>
+            <image :src="item.product_list[0].image_src" :style="{width: item.product_list[0].image_width + 'rpx'}"
+              mode="widthFix"></image>
           </navigator>
           <!-- 右侧 4 个小图片的盒子 -->
           <view class="right-img-box">
-            <navigator class="right-img-item" v-for="(item2, i2) in item.product_list" :key="i2" v-if="i2 !== 0" :url="item2.url">
+            <navigator class="right-img-item" v-for="(item2, i2) in item.product_list" :key="i2" v-if="i2 !== 0"
+              :url="item2.url">
               <image :src="item2.image_src" mode="widthFix" :style="{width: item2.image_width + 'rpx'}"></image>
             </navigator>
           </view>
@@ -54,9 +56,9 @@
     },
     onLoad() {
       // 在小程序页面刚加载的时候，调用获取轮播图数据的方法
-      this.getSwiperList(),
-        this.getNavList(),
-        this.getFloorList()
+      this.getSwiperList()
+      this.getNavList()
+      this.getFloorList()
     },
     methods: {
       // 获取轮播图数据的方法
