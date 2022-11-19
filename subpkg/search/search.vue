@@ -26,6 +26,9 @@
 
 <script>
   export default {
+    onLoad() {
+      this.historyList = JSON.parse(uni.getStorageSync('kw') || '[]')
+    },
     data() {
       return {
         // 延时器的 timerId
@@ -75,19 +78,14 @@
         // 查询到搜索建议之后，调用 saveSearchHistory() 方法保存搜索关键词
         this.saveSearchHistory()
       },
-      // 保存搜索关键词的方法
       // 保存搜索关键词为历史记录
       saveSearchHistory() {
-        // this.historyList.push(this.kw)
-
-        // 1. 将 Array 数组转化为 Set 对象
         const set = new Set(this.historyList)
-        // 2. 调用 Set 对象的 delete 方法，移除对应的元素
         set.delete(this.kw)
-        // 3. 调用 Set 对象的 add 方法，向 Set 中添加元素
         set.add(this.kw)
-        // 4. 将 Set 对象转化为 Array 数组
         this.historyList = Array.from(set)
+        // 调用 uni.setStorageSync(key, value) 将搜索历史记录持久化存储到本地
+        uni.setStorageSync('kw', JSON.stringify(this.historyList))
       },
       gotoDetail(goods_id) {
         uni.navigateTo({
