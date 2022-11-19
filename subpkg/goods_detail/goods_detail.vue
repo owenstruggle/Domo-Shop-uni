@@ -45,13 +45,26 @@
   // 从 vuex 中按需导出 mapState 辅助方法
   import {
     mapState,
-    mapMutations
+    mapMutations,
+    mapGetters
   } from 'vuex'
   export default {
     computed: {
       // 调用 mapState 方法，把 m_cart 模块中的 cart 数组映射到当前页面中，作为计算属性来使用
       // ...mapState('模块的名称', ['要映射的数据名称1', '要映射的数据名称2'])
       ...mapState('m_cart', []),
+      ...mapGetters('m_cart', ['total'])
+    },
+    watch: {
+      // 1. 监听 total 值的变化，通过第一个形参得到变化后的新值
+      total(newVal) {
+        // 2. 通过数组的 find() 方法，找到购物车按钮的配置对象
+        const findResult = this.options.find((x) => x.text === '购物车')
+        if (findResult) {
+          // 3. 动态为购物车按钮的 info 属性赋值
+          findResult.info = newVal
+        }
+      },
     },
     onLoad(options) {
       // 获取商品 Id
@@ -70,7 +83,7 @@
         }, {
           icon: 'cart',
           text: '购物车',
-          info: 2
+          info: 0
         }],
         // 右侧按钮组的配置对象
         buttonGroup: [{
