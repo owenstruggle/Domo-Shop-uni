@@ -1,10 +1,10 @@
 <template>
   <view>
     <view class="goods-list">
-      <block v-for="(item, i) in goodsList" :key="i">
+      <view v-for="(item, i) in goodsList" :key="i" @click="gotoDetail(item)">
         <!-- 为 my-goods 组件动态绑定 goods 属性的值 -->
         <my-goods :goods="item"></my-goods>
-      </block>
+      </view>
     </view>
   </view>
 </template>
@@ -59,6 +59,12 @@
         // 为数据赋值：通过展开运算符的形式，进行新旧数据的拼接
         this.goodsList = [...this.goodsList, ...res.message.goods]
         this.total = res.message.total
+      },
+      // 点击跳转到商品详情页面
+      gotoDetail(item) {
+        uni.navigateTo({
+          url: '/subpkg/goods_detail/goods_detail?goods_id=' + item.goods_id
+        })
       }
     },
     // 触底的事件
