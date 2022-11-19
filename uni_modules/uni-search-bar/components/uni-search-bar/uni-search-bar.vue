@@ -109,8 +109,8 @@
 		},
 		data() {
 			return {
-				show: false,
-				showSync: false,
+				show: true,
+				showSync: true,
 				searchVal: ''
 			}
 		},
@@ -236,6 +236,8 @@
 		position: relative;
 		padding: 10px;
 		// background-color: #fff;
+    /* 将默认的 #FFFFFF 改为 #C00000 */
+      background-color: #c00000;
 	}
 
 	.uni-searchbar__box {
