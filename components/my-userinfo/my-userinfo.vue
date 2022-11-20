@@ -1,10 +1,35 @@
 <template>
   <view class="my-userinfo-container">
 
-    <!-- 头像昵称区域 -->
-    <view class="top-box">
-      <image :src="userinfo.avatarUrl" class="avatar"></image>
-      <view class="nickname">{{userinfo.nickName}}</view>
+    <!-- 面板的列表区域 -->
+    <view class="panel-list">
+      <!-- 第一个面板 -->
+      <view class="panel">
+        <!-- panel 的主体区域 -->
+        <view class="panel-body">
+          <!-- panel 的 item 项 -->
+          <view class="panel-item">
+            <text>8</text>
+            <text>收藏的店铺</text>
+          </view>
+          <view class="panel-item">
+            <text>14</text>
+            <text>收藏的商品</text>
+          </view>
+          <view class="panel-item">
+            <text>18</text>
+            <text>关注的商品</text>
+          </view>
+          <view class="panel-item">
+            <text>84</text>
+            <text>足迹</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 第二个面板 -->
+
+      <!-- 第三个面板 -->
     </view>
 
   </view>
@@ -57,6 +82,32 @@
         font-weight: bold;
         font-size: 16px;
         margin-top: 10px;
+      }
+    }
+  }
+
+  .panel-list {
+    padding: 0 10px;
+    position: relative;
+    top: -10px;
+
+    .panel {
+      background-color: white;
+      border-radius: 3px;
+      margin-bottom: 8px;
+
+      .panel-body {
+        display: flex;
+        justify-content: space-around;
+
+        .panel-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-around;
+          font-size: 13px;
+          padding: 10px 0;
+        }
       }
     }
   }
