@@ -4,8 +4,10 @@ export default {
 
   // state 数据
   state: () => ({
-    // 3. 读取本地的收货地址数据，初始化 address 对象
+    // 收货地址
     address: JSON.parse(uni.getStorageSync('address') || '{}'),
+    // 登录成功之后的 token 字符串
+    token: '',
   }),
 
   // 方法
