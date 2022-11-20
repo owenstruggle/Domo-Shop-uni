@@ -63,6 +63,13 @@ export default {
       state.cart = state.cart.filter(x => x.goods_id !== goods_id)
       // 持久化存储到本地
       this.commit('m_cart/saveToStorage')
+    },
+    // 更新所有商品的勾选状态
+    updateAllGoodsState(state, newState) {
+      // 循环更新购物车中每件商品的勾选状态
+      state.cart.forEach(x => x.goods_state = newState)
+      // 持久化存储到本地
+      this.commit('m_cart/saveToStorage')
     }
   },
 
