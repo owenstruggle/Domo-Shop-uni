@@ -11,6 +11,10 @@
 </template>
 
 <script>
+  // 1. 按需导入 mapMutations 辅助函数
+  import {
+    mapMutations
+  } from 'vuex'
   export default {
     name: "my-login",
     data() {
@@ -19,14 +23,18 @@
       };
     },
     methods: {
+      // 2. 调用 mapMutations 辅助方法，把 m_user 模块中的 updateUserInfo 映射到当前组件中使用
+      ...mapMutations('m_user', ['updateUserInfo']),
       // 获取微信用户的基本信息
       getUserInfo(e) {
         // 判断是否获取用户信息成功
         if (e.detail.errMsg === 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权！')
-
         // 获取用户信息成功， e.detail.userInfo 就是用户的基本信息
-        console.log(e.detail.userInfo)
-      }
+        // console.log(e.detail.userInfo)
+
+        // 3. 将用户的基本信息存储到 vuex 中
+        this.updateUserInfo(e.detail.userInfo)
+      },
     }
   }
 </script>
