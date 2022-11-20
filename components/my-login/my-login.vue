@@ -3,10 +3,9 @@
     <!-- 提示登录的图标 -->
     <uni-icons type="contact-filled" size="100" color="#AFAFAF"></uni-icons>
     <!-- 登录按钮 -->
-    <button type="primary" class="btn-login">一键登录</button>
-    <!-- 登录按钮 -->
     <!-- 可以从 @getuserinfo 事件处理函数的形参中，获取到用户的基本信息 -->
     <button type="primary" class="btn-login" open-type="getUserInfo" @getuserinfo="getUserInfo">一键登录</button>
+    <text class="tips-text">登录后尽享更多权益</text>
   </view>
 </template>
 
@@ -20,24 +19,19 @@
     name: "my-login",
     computed: {
       // 调用 mapState 辅助方法，把 m_user 模块中的数据映射到当前用组件中使用
-      ...mapState('m_user', ['redirectInfo']),
+      ...mapState('m_user', ['redirectInfo'])
     },
     data() {
-      return {
-
-      };
+      return {};
     },
     methods: {
       // 1. 使用 mapMutations 辅助方法，把 m_user 模块中的 updateToken 方法映射到当前组件中使用
       ...mapMutations('m_user', ['updateUserInfo', 'updateToken', 'updateRedirectInfo']),
       // 获取微信用户的基本信息
-      // 获取微信用户的基本信息
       getUserInfo(e) {
         // 判断是否获取用户信息成功
         if (e.detail.errMsg === 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权！')
-        // 将用户的基本信息存储到 vuex 中
         this.updateUserInfo(e.detail.userInfo)
-        // 获取登录成功后的 Token 字符串
         this.getToken(e.detail)
       },
       // 调用登录接口，换取永久的 token
@@ -60,6 +54,7 @@
         const {
           data: loginResult
         } = await uni.$http.post('/api/public/v1/users/wxlogin', query)
+        this.updateToken('fade-token')	//在判断登录之前设置假token
         if (loginResult.meta.status !== 200) return uni.$showMsg('登录失败！')
 
         // 2. 更新 vuex 中的 token
@@ -67,6 +62,7 @@
         // 判断 vuex 中的 redirectInfo 是否为 null
         // 如果不为 null，则登录成功之后，需要重新导航到对应的页面
         this.navigateBack()
+
       },
       // 返回登录之前的页面
       navigateBack() {
@@ -80,6 +76,7 @@
             complete: () => {
               this.updateRedirectInfo(null)
             }
+
           })
         }
       }
