@@ -35,10 +35,14 @@
     data() {
       return {
         // 倒计时的秒数
-        seconds: 3
+        seconds: 3,
+        // 定时器的 Id
+        timer: null
       }
     },
     methods: {
+      // 把 m_user 模块中的 updateRedirectInfo 方法映射到当前页面中使用
+      ...mapMutations('m_user', ['updateRedirectInfo']),
       ...mapMutations('m_cart', ['updateAllGoodsState']),
       // label 的点击事件处理函数
       changeAllState() {
@@ -74,14 +78,34 @@
       },
       // 延迟导航到 my 页面
       delayNavigate() {
-        // 1. 展示提示消息，此时 seconds 的值等于 3
+        // 把 data 中的秒数重置成 3 秒
+        this.seconds = 3
         this.showTips(this.seconds)
 
-        // 2. 创建定时器，每隔 1 秒执行一次
-        setInterval(() => {
-          // 2.1 先让秒数自减 1
+        this.timer = setInterval(() => {
           this.seconds--
-          // 2.2 再根据最新的秒数，进行消息提示
+
+          if (this.seconds <= 0) {
+            // 清除定时器
+            clearInterval(this.timer)
+            // 跳转到 my 页面
+            uni.switchTab({
+              url: '/pages/my/my',
+              // 页面跳转成功之后的回调函数
+              success: () => {
+                // 调用 vuex 的 updateRedirectInfo 方法，把跳转信息存储到 Store 中
+                this.updateRedirectInfo({
+                  // 跳转的方式
+                  openType: 'switchTab',
+                  // 从哪个页面跳转过去的
+                  from: '/pages/cart/cart'
+                })
+              }
+            })
+
+            return
+          }
+
           this.showTips(this.seconds)
         }, 1000)
       },

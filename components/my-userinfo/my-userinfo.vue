@@ -86,7 +86,7 @@
     mapMutations
   } from 'vuex'
   export default {
-    // name: "my-userinfo",
+    name: "my-userinfo",
     computed: {
       // 将 m_user 模块中的 userinfo 映射到当前页面中使用
       ...mapState('m_user', ['userinfo']),

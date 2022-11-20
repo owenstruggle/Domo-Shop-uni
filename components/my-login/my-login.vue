@@ -13,10 +13,15 @@
 <script>
   // 1. 按需导入 mapMutations 辅助函数
   import {
-    mapMutations
+    mapMutations,
+    mapState
   } from 'vuex'
   export default {
     name: "my-login",
+    computed: {
+      // 调用 mapState 辅助方法，把 m_user 模块中的数据映射到当前用组件中使用
+      ...mapState('m_user', ['redirectInfo']),
+    },
     data() {
       return {
 
@@ -24,7 +29,7 @@
     },
     methods: {
       // 1. 使用 mapMutations 辅助方法，把 m_user 模块中的 updateToken 方法映射到当前组件中使用
-      ...mapMutations('m_user', ['updateUserInfo', 'updateToken']),
+      ...mapMutations('m_user', ['updateUserInfo', 'updateToken', 'updateRedirectInfo']),
       // 获取微信用户的基本信息
       // 获取微信用户的基本信息
       getUserInfo(e) {
