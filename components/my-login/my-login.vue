@@ -26,15 +26,38 @@
       // 2. 调用 mapMutations 辅助方法，把 m_user 模块中的 updateUserInfo 映射到当前组件中使用
       ...mapMutations('m_user', ['updateUserInfo']),
       // 获取微信用户的基本信息
+      // 获取微信用户的基本信息
       getUserInfo(e) {
         // 判断是否获取用户信息成功
         if (e.detail.errMsg === 'getUserInfo:fail auth deny') return uni.$showMsg('您取消了登录授权！')
-        // 获取用户信息成功， e.detail.userInfo 就是用户的基本信息
-        // console.log(e.detail.userInfo)
-
-        // 3. 将用户的基本信息存储到 vuex 中
+        // 将用户的基本信息存储到 vuex 中
         this.updateUserInfo(e.detail.userInfo)
+        // 获取登录成功后的 Token 字符串
+        this.getToken(e.detail)
       },
+      // 调用登录接口，换取永久的 token
+      async getToken(info) {
+        // 调用微信登录接口
+        const [err, res] = await uni.login().catch(err => err)
+        // 判断是否 uni.login() 调用失败
+        if (err || res.errMsg !== 'login:ok') return uni.$showError('登录失败！')
+
+        // 准备参数对象
+        const query = {
+          code: res.code,
+          encryptedData: info.encryptedData,
+          iv: info.iv,
+          rawData: info.rawData,
+          signature: info.signature
+        }
+
+        // 换取 token
+        const {
+          data: loginResult
+        } = await uni.$http.post('/api/public/v1/users/wxlogin', query)
+        if (loginResult.meta.status !== 200) return uni.$showMsg('登录失败！')
+        uni.$showMsg('登录成功')
+      }
     }
   }
 </script>
